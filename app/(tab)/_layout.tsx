@@ -16,7 +16,7 @@ export default function TabLayout() {
                 tabBarStyle: {
                     width:'90%',
                     margin: 'auto',
-                    backgroundColor: "#1d976c",
+                    backgroundColor: "green",
                     bottom: 20,
                     height: 60,
                     justifyContent: 'center',
