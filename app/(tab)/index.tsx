@@ -1,24 +1,28 @@
-import React, {useState} from 'react';
-import {FlatList, ScrollView, View} from "react-native";
+import React, {useEffect, useState} from 'react';
+import {FlatList, Text, View} from "react-native";
 import Header from "@/app/Components/Header";
 import SectionTitle from "@/app/Components/SectionTitle";
 import ProductsCard from "@/app/Components/ProductsCard";
-import nido from "../../assets/images/nido.png"
 import ProductForm from "@/app/Components/ProductForm";
 import Search from "@/app/Components/Search";
-
-const products = [
-    { id: '1', src: nido, name: "Nido", type: "Nutrition", price: "250", quantity: 120 },
-    { id: '2', src: nido, name: "Nido", type: "Nutrition", price: "250", quantity: 120 },
-    { id: '3', src: nido, name: "Nido", type: "Nutrition", price: "250", quantity: 120 },
-    { id: '4', src: nido, name: "Nido", type: "Nutrition", price: "250", quantity: 120 },
-    { id: '5', src: nido, name: "Nido", type: "Nutrition", price: "250", quantity: 120 },
-    { id: '6', src: nido, name: "Nido", type: "Nutrition", price: "250", quantity: 120 }
-];
+import {useDispatch, useSelector} from "react-redux";
+import {fetchProducts} from "@/app/redux/slices/productsSlice";
 
 function Index() {
     const [productForm, setProductForm] = useState(false);
     const [search, setSearch] = useState(false);
+
+    const dispatch = useDispatch();
+    const { products, loading, error} = useSelector((state) => state.products);
+    console.log(products)
+
+    useEffect(() => {
+        dispatch(fetchProducts());
+    }, [dispatch]);
+
+    if (loading) return <Text>Loading...</Text>;
+    if (error) return <Text>Error: {error}</Text>;
+
 
     return (
         productForm ? (
@@ -31,11 +35,11 @@ function Index() {
             <SectionTitle onPress={() => setProductForm(true)} />
                 <FlatList
                     data={products}
-                    keyExtractor={item => item.id}
+                    keyExtractor={item => item.id.toString()}
                     numColumns={2}
                     renderItem={({ item }) => (
                         <View style={{ flex: 1, padding: 5 }}>
-                            <ProductsCard {...item} />
+                            <ProductsCard name={item.name} price={item.price} type={item.type} src={item.image} quantity={item.price} key={item.id} />
                         </View>
                     )}
                     contentContainerStyle={{ paddingBottom: 20 }}
