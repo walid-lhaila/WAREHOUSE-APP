@@ -1,24 +1,23 @@
-import {StyleSheet, TextInput, View} from "react-native";
-import {Ionicons} from "@expo/vector-icons";
+import { StyleSheet, TextInput, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-
 
 interface InputProps {
     placeHolder: string,
     iconName: string,
+    keyboardType?: string,
 }
 
-const Input = ({placeHolder, iconName}: InputProps) => {
+const Input = ({ placeHolder, iconName, keyboardType = "default" }: InputProps) => {
     return (
         <View style={styles.input}>
             <Ionicons name={iconName} color="#bdbdbd" size={22} />
-            <TextInput placeholder={placeHolder} />
+            <TextInput placeholder={placeHolder} keyboardType={keyboardType} style={{ flex: 1, color: 'black' }} placeholderTextColor="#bdbdbd" />
         </View>
-    )
-}
+    );
+};
 
 export default Input;
-
 const styles = StyleSheet.create({
     input: {
         backgroundColor: 'white',
@@ -36,6 +35,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.3,
         shadowRadius: 5,
         elevation: 5,
-        marginTop: 20
-    }
+        marginTop: 20,
+    },
+
 })

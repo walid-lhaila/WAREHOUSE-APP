@@ -4,11 +4,11 @@ import {Ionicons} from "@expo/vector-icons";
 import logo from "../../assets/images/logo1.png"
 
 
-function Header() {
+function Header({ onPress }) {
     return (
         <View style={styles.header}>
             <Image style={styles.logo} source={logo} />
-            <Pressable>
+            <Pressable onPress={onPress}>
                 <Ionicons name={"search-outline"} color={"white"} size={35} />
             </Pressable>
         </View>
