@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     },
     startedButton: {
         marginTop: 20,
-        backgroundColor: "#1d976c",
+        backgroundColor: "green",
         paddingVertical: 15,
         paddingHorizontal: 5,
         borderRadius: 20,
