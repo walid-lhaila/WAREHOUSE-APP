@@ -1,7 +1,7 @@
 import {ImageBackground, StatusBar, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {useRouter} from "expo-router";
 import {LinearGradient} from "expo-linear-gradient";
-import bg from "../assets/images/bg.jpeg"
+import bg from "../assets/images/bg2.jpeg"
 
 export default function Index() {
     const router = useRouter()
