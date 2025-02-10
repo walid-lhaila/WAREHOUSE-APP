@@ -32,13 +32,11 @@ function Login() {
                         <View style={styles.inputContainer}>
                             <Input placeHolder="Password" iconName="lock-closed" />
                             <Text style={styles.forgotPassword}>Forgot your password ?</Text>
-                            <View style={styles.signInContainer}>
+                            <Pressable onPress={() => Router.push('(tab)')} style={styles.signInContainer}>
                                 <Text style={styles.signInText}>Sign In</Text>
                                 <LinearGradient colors={["#1d976c", "#93F9B9"]} style={styles.gradientButton}>
                                     <Ionicons name="arrow-forward" size={20} color="white" />
                                 </LinearGradient>
-                            </View>
-                            <Pressable onPress={() => Router.push("/registerSelect")}>
                             </Pressable>
                         </View>
                     </View>
