@@ -7,10 +7,11 @@ interface ProductsCardProps {
     price: number,
     src: string,
     name: string,
-    quantity: number
+    quantity: number,
+    onPress: () => void,
 }
 
-function ProductsCard({ type, price, src, name, quantity}: ProductsCardProps) {
+function ProductsCard({ type, price, src, name, quantity, onPress}: ProductsCardProps) {
     const truncateName = name.length > 10 ? name.substring(0, 11) + ' ...' : name;
     const truncateType = type.length > 10 ? type.substring(0, 5) + ' ...' : type;
     return (
@@ -30,11 +31,14 @@ function ProductsCard({ type, price, src, name, quantity}: ProductsCardProps) {
             </View>
             <View style={{ width: '90%', marginHorizontal: 'auto', marginTop: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                 <View>
-                    <Text style={{ fontWeight: 200, fontSize: 14}}>{quantity} Items</Text>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5}}>
+                        <View style={{ backgroundColor: 'orange', width: 8, height: 8, borderRadius: 50}}></View>
+                        <Text style={{ fontWeight: 200, fontSize: 14}}>{quantity} Items</Text>
+                    </View>
                     <Text style={{ fontWeight: 600, fontSize: 17}}>{truncateName}</Text>
                 </View>
                 <Pressable>
-                    <TouchableOpacity style={{ borderWidth: 1, paddingVertical: 5, paddingHorizontal: 5, borderRadius: 50}}>
+                    <TouchableOpacity onPress={onPress} style={{ borderWidth: 1, paddingVertical: 5, paddingHorizontal: 5, borderRadius: 50}}>
                         <Ionicons name={"arrow-up"} color={"black"} size={20} />
                     </TouchableOpacity>
                 </Pressable>
