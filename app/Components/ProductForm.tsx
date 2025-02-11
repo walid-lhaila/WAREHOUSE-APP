@@ -1,60 +1,20 @@
-import React, {useState} from 'react';
-import {Alert, Image, Pressable, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import React, {useRef} from 'react';
+import {Modal, Pressable, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Input from "@/app/Components/Input";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
-import {useDispatch} from "react-redux";
-import {createProducts} from "@/app/redux/slices/productsSlice";
-import useUser from "@/app/hooks/useGetUserData";
-import useGetUserData from "@/app/hooks/useGetUserData";
+import {Camera, CameraView} from 'expo-camera';
+import useCameraPermission from "@/app/hooks/useCameraPermission";
+import useProductForm from "@/app/hooks/useProductForm";
+import useBarcodeScanner from "@/app/hooks/useBarcodeScanner";
 
 function ProductForm({ onPress }) {
-    const dispatch = useDispatch();
-    const warehouseman = useGetUserData();
-    console.log(warehouseman);
+    const cameraRef = useRef(null);
+    const hasPermission = useCameraPermission();
+    const { product, setProduct, handleChange, handleSubmit } = useProductForm(onPress);
+    const { scanning, setScanning, handleBarCodeScanned } = useBarcodeScanner(setProduct);
+    console.log(product.barcode);
 
-    const [product, setProduct] = useState({
-        name: "",
-        type: "",
-        price: "",
-        solde: "",
-        supplier: "",
-        barcode: "",
-        image: "",
-    });
-
-    const handleChange = (key, value) => {
-        setProduct((prev) => ({ ...prev, [key]: value }));
-    };
-
-    const handleSubmit = () => {
-        if(!product.name || !product.barcode || !product.price || !product.solde || !product.type || !product.supplier) {
-            Alert.alert("Error", "Please fill in all required fields.");
-            return;
-        }
-        if (!warehouseman) {
-            Alert.alert("Error", "User not authenticated.");
-            return;
-        }
-        try {
-            const newProduct = {
-                ...product,
-                editedBy: [
-                    {
-                        warehousemanId: warehouseman.userId,
-                        at: new Date().toISOString().split('T')[0]
-                    }
-                ]
-            }
-            dispatch(createProducts(newProduct)).unwrap();
-            Alert.alert("Success", "Product added successfully!");
-            onPress();
-        } catch (error) {
-            console.log(error || "Failed to add comment.");
-        }
-
-
-    }
     return (
         <View style={{ flex: 1 }}>
             <View style={styles.header}>
@@ -71,7 +31,7 @@ function ProductForm({ onPress }) {
                     <Input placeHolder="Price" iconName="pricetag-outline" onChangeText={(text) => handleChange("price", text)}  />
                     <Input placeHolder="Solde" iconName="wallet-outline" onChangeText={(text) => handleChange("solde", text)}  />
                     <Input placeHolder="Supplier" iconName="business-outline"  onChangeText={(text) => handleChange("supplier", text)} />
-                    <Input placeHolder="Barcode" iconName="barcode-outline"  onChangeText={(text) => handleChange("barcode", text)} />
+                    <Input placeHolder={product.barcode} iconName="barcode-outline"  onChangeText={(text) => handleChange("barcode", text)} value={product.barcode} />
                     <Input placeHolder="Image URL" iconName="image-outline" keyboardType="url"  onChangeText={(text) => handleChange("image", text)} />
                     <View style={{ flexDirection: 'row', gap: 10, paddingTop: 50, justifyContent: 'center', alignItems: 'center' }}>
                         <LinearGradient colors={['green', '#93F9B9']} style={styles.button}>
@@ -80,13 +40,28 @@ function ProductForm({ onPress }) {
                             </TouchableOpacity>
                         </LinearGradient>
                         <LinearGradient colors={['green', '#93F9B9']} style={styles.iconButton}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => setScanning(true)}>
                                 <Ionicons name={'scan-outline'} size={30} color={'white'} />
                             </TouchableOpacity>
                         </LinearGradient>
                     </View>
                 </View>
             </View>
+            {scanning && hasPermission && (
+                <Modal visible={scanning} animationType="slide" transparent={false}>
+                        <View style={styles.scannerContainer}>
+                            <CameraView
+                                ref={cameraRef}
+                                style={StyleSheet.absoluteFillObject}
+                                onBarcodeScanned={handleBarCodeScanned}
+                                ratio="16:9"
+                            />
+                            <TouchableOpacity style={styles.closeButton} onPress={() => setScanning(false)}>
+                                <Ionicons name="close-circle-outline" size={40} color="white" />
+                            </TouchableOpacity>
+                        </View>
+                    </Modal>
+            )}
         </View>
     );
 }
@@ -131,5 +106,15 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 15
     },
-
+    scannerContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "black",
+    },
+    closeButton: {
+        position: "absolute",
+        top: 50,
+        right: 20,
+    },
 });
