@@ -1,14 +1,16 @@
 import React, {useState} from 'react';
 import {Alert, Image, Pressable, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import Header from "@/app/Components/Header";
 import Input from "@/app/Components/Input";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import {useDispatch} from "react-redux";
 import {createProducts} from "@/app/redux/slices/productsSlice";
+import useUser from "@/app/hooks/useGetUserData";
+import useGetUserData from "@/app/hooks/useGetUserData";
 
 function ProductForm({ onPress }) {
     const dispatch = useDispatch();
+    const warehouseman = useGetUserData();
 
     const [product, setProduct] = useState({
         name: "",
@@ -29,9 +31,23 @@ function ProductForm({ onPress }) {
             Alert.alert("Error", "Please fill in all required fields.");
             return;
         }
+        if (!warehouseman) {
+            Alert.alert("Error", "User not authenticated.");
+            return;
+        }
         try {
-            dispatch(createProducts(product))
-            console.log('Comment Added Successfully');
+            const newProduct = {
+                ...product,
+                editedBy: [
+                    {
+                        warehousemanId: warehouseman.id,
+                        at: new Date().toISOString().split('T')[0]
+                    }
+                ]
+            }
+            dispatch(createProducts(newProduct)).unwrap();
+            Alert.alert("Success", "Product added successfully!");
+            onPress();
         } catch (error) {
             console.log(error || "Failed to add comment.");
         }

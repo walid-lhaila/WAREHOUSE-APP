@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://192.168.9.132:3000/products";
+const API_URL = "http://192.168.1.26:3000/products";
 
 export const fetchProducts = createAsyncThunk(
     "products/fetchProducts",
@@ -14,7 +14,7 @@ export const fetchProducts = createAsyncThunk(
 
 export const createProducts = createAsyncThunk(
     "products/create",
-    async (newProduct) => {
+    async (newProduct, {dispatch}) => {
         const response = await axios.post(API_URL, newProduct);
         return response.data;
     }
@@ -47,7 +47,11 @@ const productSlice = createSlice({
             })
             .addCase(createProducts.fulfilled, (state, action) => {
                 state.loading = false;
-                state.products.push = action.payload;
+                state.products.push(action.payload);
+                state.error = false
+            })
+            .addCase(createProducts.rejected, (state, action) => {
+                state.loading = false;
                 state.error = action.error.message;
             });
     },
