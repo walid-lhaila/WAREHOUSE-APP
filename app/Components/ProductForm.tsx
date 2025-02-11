@@ -11,6 +11,7 @@ import useGetUserData from "@/app/hooks/useGetUserData";
 function ProductForm({ onPress }) {
     const dispatch = useDispatch();
     const warehouseman = useGetUserData();
+    console.log(warehouseman);
 
     const [product, setProduct] = useState({
         name: "",
@@ -40,7 +41,7 @@ function ProductForm({ onPress }) {
                 ...product,
                 editedBy: [
                     {
-                        warehousemanId: warehouseman.id,
+                        warehousemanId: warehouseman.userId,
                         at: new Date().toISOString().split('T')[0]
                     }
                 ]
