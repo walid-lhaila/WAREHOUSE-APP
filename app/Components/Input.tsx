@@ -6,13 +6,14 @@ interface InputProps {
     placeHolder: string,
     iconName: string,
     keyboardType?: string,
+    onChangeText: () => void
 }
 
-const Input = ({ placeHolder, iconName, keyboardType = "default" }: InputProps) => {
+const Input = ({ placeHolder, iconName, keyboardType = "default", onChangeText }: InputProps) => {
     return (
         <View style={styles.input}>
             <Ionicons name={iconName} color="#bdbdbd" size={22} />
-            <TextInput placeholder={placeHolder} keyboardType={keyboardType} style={{ flex: 1, color: 'black' }} placeholderTextColor="#bdbdbd" />
+            <TextInput placeholder={placeHolder} keyboardType={keyboardType} style={{ flex: 1, color: 'black' }} placeholderTextColor="#bdbdbd" onChangeText={onChangeText} />
         </View>
     );
 };
