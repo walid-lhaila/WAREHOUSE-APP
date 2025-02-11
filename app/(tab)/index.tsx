@@ -15,15 +15,11 @@ function Index() {
     const [productDetails, setProductDetails] = useState(false);
 
     const dispatch = useDispatch();
-    const { products, loading, error} = useSelector((state) => state.products);
+    const { products } = useSelector((state) => state.products);
 
     useEffect(() => {
         dispatch(fetchProducts());
     }, [dispatch]);
-
-    if (loading) return <Text>Loading...</Text>;
-    if (error) return <Text>Error: {error}</Text>;
-
 
     return (
         productForm ? (
