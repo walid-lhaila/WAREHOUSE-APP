@@ -8,7 +8,7 @@ interface ProductsCardProps {
     src: string,
     name: string,
     quantity: number,
-    onPress: () => void,
+    onPress: () => void
 }
 
 function ProductsCard({ type, price, src, name, quantity, onPress}: ProductsCardProps) {

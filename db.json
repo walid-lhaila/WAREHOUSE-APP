@@ -35,6 +35,10 @@
         {
           "warehousemanId": 1333,
           "at": "2025-02-02"
+        },
+        {
+          "warehousemanId": 1333,
+          "at": "2025-02-02"
         }
       ]
     },

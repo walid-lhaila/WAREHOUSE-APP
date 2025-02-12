@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://192.168.1.26:3000/products";
+const API_URL = "http://192.168.9.132:3000/products";
 
 export const fetchProducts = createAsyncThunk(
     "products/fetchProducts",
@@ -20,12 +20,26 @@ export const createProducts = createAsyncThunk(
     }
 );
 
+export const getProductDetails = createAsyncThunk(
+    "product/getDetails",
+    async (productId, {rejectWithValue}) => {
+        try {
+            const response = await axios.get(`${API_URL}/${productId}`);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.message || 'something Went Wrong');
+        }
+
+    }
+)
+
 const productSlice = createSlice({
     name: "products",
     initialState: {
         products: [],
         loading: false,
         error: null,
+        productDetails: null
     },
     reducers: {},
     extraReducers: (builder) => {
@@ -53,7 +67,20 @@ const productSlice = createSlice({
             .addCase(createProducts.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
-            });
+            })
+            .addCase(getProductDetails.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getProductDetails.fulfilled, (state, action) => {
+                state.loading = false;
+                state.productDetails = action.payload;
+            })
+            .addCase(getProductDetails.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
+
     },
 });
 
