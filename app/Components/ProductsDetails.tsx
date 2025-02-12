@@ -5,8 +5,8 @@ import Entypo from '@expo/vector-icons/Entypo';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {Ionicons} from "@expo/vector-icons";
-import {useDispatch, useSelector} from "react-redux";
-import {getProductDetails} from "@/app/redux/slices/productsSlice";
+import useGetAllWarehousemans from "@/app/hooks/useGetAllWarehousemans";
+import useGetProductDetails from "@/app/hooks/useGetProductDetails";
 
 interface ProductDetailsProps {
     productId: string;
@@ -14,16 +14,9 @@ interface ProductDetailsProps {
 }
 
 const ProductDetails = ({onPress, productId}: ProductDetailsProps) => {
-    const dispatch = useDispatch();
-    const { productDetails, loading } = useSelector((state) => state.products);
+    const { productDetails, loading } = useGetProductDetails(productId);
     const totalStock = productDetails?.stocks?.reduce((total, stock) => total + stock.quantity, 0) || 0;
-
-    useEffect(() => {
-        if(productId) {
-            dispatch(getProductDetails(productId));
-        }
-    }, [dispatch, productId]);
-
+    const warehousemans = useGetAllWarehousemans();
 
     if (loading || !productDetails) {
         return (
@@ -114,13 +107,17 @@ const ProductDetails = ({onPress, productId}: ProductDetailsProps) => {
                     </View>
                 </View>
 
-                {productDetails.editedBy?.map((wh) => (
-                    <View style={{ width: '100%', height: 35, flexDirection: 'row', alignItems: 'center', paddingLeft: '30' }}>
-                        <Text style={{ fontSize: 16, fontWeight: '600' }}>Edite By :  </Text>
-                        <Text key={wh.warehousemanId} style={{ fontSize: 16, color: 'gray' }}>{wh.warehousemanId} at {wh.at}</Text>
-                    </View>
-                ))}
-
+                {productDetails.editedBy?.map((wh) => {
+                    const warehouseman = warehousemans.find((wm) => wm.id === String(wh.warehousemanId));
+                    return (
+                        <View key={wh.warehousemanId} style={{ width: '100%', height: 35, flexDirection: 'row', alignItems: 'center', paddingLeft: '30' }}>
+                            <Text style={{ fontSize: 16, fontWeight: '600' }}>Edited By :  </Text>
+                            <Text style={{ fontSize: 16, color: 'gray' }}>
+                                {warehouseman ? warehouseman.name : `Unknown (ID: ${wh.warehousemanId})`} at {wh.at}
+                            </Text>
+                        </View>
+                    );
+                })}
                 <View style={{ width: '100%', height: 15, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                     <View style={{ width: '93%', height: 2, borderBottomWidth: 1, borderColor: '#E3E3E3' }}>
                     </View>
