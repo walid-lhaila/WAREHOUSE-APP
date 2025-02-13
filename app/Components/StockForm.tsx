@@ -3,61 +3,14 @@
     import {Ionicons} from "@expo/vector-icons";
     import Input from "@/app/Components/Input";
     import {LinearGradient} from "expo-linear-gradient";
-    import {useDispatch} from "react-redux";
-    import {addStock, getProductDetails} from "@/app/redux/slices/productsSlice";
-    import useGetUserData from "@/app/hooks/useGetUserData";
+    import useAddStock from "@/app/hooks/useAddStock";
 
     function StockForm({onPress, productId}) {
-        const dispatch = useDispatch();
-        const warehouseman = useGetUserData();
         const [stockName, setStockName] = useState('');
         const [quantity, setQuantity] = useState('');
         const [city, setCity] = useState('');
 
-        const handleAddStock = async () => {
-
-            const productDetails = await dispatch(getProductDetails(productId)).unwrap();
-
-            try {
-            const newStock = {
-                id: Date.now(),
-                name: stockName,
-                quantity: parseInt(quantity),
-                localisation: {
-                    city: city,
-                },
-            };
-
-            const warehousemanId = Number(warehouseman.userId);
-
-            const existingEditorIndex = productDetails.editedBy.findIndex(
-                (editor) => Number(editor.warehousemanId) === warehousemanId
-            );
-
-            let updatedEditedBy = [...productDetails.editedBy];
-
-            if (existingEditorIndex !== -1) {
-                updatedEditedBy[existingEditorIndex].at = new Date().toISOString().split("T")[0];
-            } else {
-                updatedEditedBy.push({
-                    warehousemanId,
-                    at: new Date().toISOString().split("T")[0],
-                });
-            }
-
-            const updatedProduct = {
-                ...productDetails,
-                stocks: [...productDetails.stocks, newStock],
-                editedBy: updatedEditedBy,
-            };
-            await dispatch(addStock({productId, updatedProduct}));
-            console.log("Stock added successfully");
-            await dispatch(getProductDetails(productId));
-            onPress();
-            } catch (error) {
-                console.log("stock failed");
-            }
-        }
+        const { handleAddStock } = useAddStock(productId, onPress);
         return (
             <View style={{ flex: 1 }}>
                 <View style={styles.header}>
@@ -73,7 +26,7 @@
                         <Input placeHolder="City" iconName="home-outline"  onChangeText={setCity}/>
                         <View style={{ flexDirection: 'row', gap: 10, paddingTop: 50, justifyContent: 'center', alignItems: 'center' }}>
                             <LinearGradient colors={['green', '#93F9B9']} style={styles.button}>
-                                <TouchableOpacity onPress={handleAddStock}>
+                                <TouchableOpacity onPress={() => handleAddStock(stockName, quantity, city)}>
                                     <Text style={styles.buttonText}>Create</Text>
                                 </TouchableOpacity>
                             </LinearGradient>
