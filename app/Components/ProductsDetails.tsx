@@ -8,6 +8,7 @@ import {Ionicons} from "@expo/vector-icons";
 import useGetAllWarehousemans from "@/app/hooks/useGetAllWarehousemans";
 import useGetProductDetails from "@/app/hooks/useGetProductDetails";
 import StockForm from "@/app/Components/StockForm";
+import QuantityForm from "@/app/Components/QuantityForm";
 
 interface ProductDetailsProps {
     productId: string;
@@ -19,6 +20,7 @@ const ProductDetails = ({onPress, productId}: ProductDetailsProps) => {
     const totalStock = productDetails?.stocks?.reduce((total, stock) => total + stock.quantity, 0) || 0;
     const warehousemans = useGetAllWarehousemans();
     const [stockForm, setStockForm] = useState(false);
+    const [quantityForm, setQuantityForm] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
     const [height, setHeight] = useState(50);
     const [icon, setIcon] = useState('arrow-down');
@@ -45,6 +47,8 @@ const ProductDetails = ({onPress, productId}: ProductDetailsProps) => {
 
         stockForm ? (
                 <StockForm productId={productDetails.id} onPress={() => setStockForm(false)} />
+            ) : quantityForm ? (
+                <QuantityForm close={() => setQuantityForm(false)} />
             ) : (
                 <View style={{ flex: 1}}>
                     <View style={{ width: '100%', paddingTop: 50, paddingHorizontal: 10, paddingVertical: 20, flexDirection: 'row', alignItems: 'center', backgroundColor: 'green' }}>
@@ -163,7 +167,7 @@ const ProductDetails = ({onPress, productId}: ProductDetailsProps) => {
                             <TouchableOpacity onPress={() => setStockForm(true)}  style={{ width: '30%', height: '80%', overflow: 'hidden', borderRadius: 10, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'green' }}>
                                 <FontAwesome name="plus" size={34} color="green" />
                             </TouchableOpacity>
-                            <TouchableOpacity  style={{ width: '30%', height: '80%', overflow: 'hidden', borderRadius: 10, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: '#306EFF' }}>
+                            <TouchableOpacity onPress={() => setQuantityForm(true)}  style={{ width: '30%', height: '80%', overflow: 'hidden', borderRadius: 10, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: '#306EFF' }}>
                                 <FontAwesome name="edit" size={34} color="#306EFF" />
                             </TouchableOpacity>
                             <TouchableOpacity  style={{ width: '30%', height: '80%', overflow: 'hidden', borderRadius: 10, justifyContent: 'center', alignItems: 'center', borderWidth: 1, borderColor: 'red' }}>
