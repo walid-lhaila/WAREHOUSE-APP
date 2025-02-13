@@ -28,16 +28,27 @@
                 },
             };
 
+            const warehousemanId = Number(warehouseman.userId);
+
+            const existingEditorIndex = productDetails.editedBy.findIndex(
+                (editor) => Number(editor.warehousemanId) === warehousemanId
+            );
+
+            let updatedEditedBy = [...productDetails.editedBy];
+
+            if (existingEditorIndex !== -1) {
+                updatedEditedBy[existingEditorIndex].at = new Date().toISOString().split("T")[0];
+            } else {
+                updatedEditedBy.push({
+                    warehousemanId,
+                    at: new Date().toISOString().split("T")[0],
+                });
+            }
+
             const updatedProduct = {
                 ...productDetails,
                 stocks: [...productDetails.stocks, newStock],
-                editedBy: [
-                    ...productDetails.editedBy,
-                    {
-                        warehousemanId: warehouseman.userId,
-                        at: new Date().toISOString().split("T")[0],
-                    },
-                ],
+                editedBy: updatedEditedBy,
             };
             await dispatch(addStock({productId, updatedProduct}));
             console.log("Stock added successfully");
