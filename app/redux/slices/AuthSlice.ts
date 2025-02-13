@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const API_URL = "http://192.168.8.230:3000/warehousemans";
+const API_URL = `${process.env.EXPO_PUBLIC_BACKEND_URL}/warehousemans`;
 
 interface LoginData {
     secretKey: string;

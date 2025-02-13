@@ -1,20 +1,23 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://192.168.8.230:3000/products";
+const API_URL = `${process.env.EXPO_PUBLIC_BACKEND_URL}/products`;
 
 export const fetchProducts = createAsyncThunk(
     "products/fetchProducts",
-        async () => {
-        const response = await axios.get(API_URL);
-        return response.data;
-
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await axios.get(API_URL);
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || "Something went wrong");
         }
-    );
+    }
+);
 
 export const createProducts = createAsyncThunk(
     "products/create",
-    async (newProduct, {dispatch}) => {
+    async (newProduct) => {
         const response = await axios.post(API_URL, newProduct);
         return response.data;
     }
@@ -31,7 +34,27 @@ export const getProductDetails = createAsyncThunk(
         }
 
     }
-)
+);
+
+export const addStock = createAsyncThunk(
+    "products/addStock",
+    async ({ productId, stockData }, { rejectWithValue }) => {
+        try {
+            const productResponse = await axios.get(`${API_URL}/${productId}`);
+            const product = productResponse.data;
+
+            const updatedStocks = [...product.stocks, stockData];
+
+            const updatedProduct = { ...product, stocks: updatedStocks };
+            await axios.put(`${API_URL}/${productId}`, updatedProduct);
+
+            return { productId, stockData };
+        } catch (error) {
+            return rejectWithValue(error.response?.data || "Something went wrong");
+        }
+    }
+);
+
 
 const productSlice = createSlice({
     name: "products",
@@ -80,7 +103,21 @@ const productSlice = createSlice({
                 state.loading = false;
                 state.error = action.error.message;
             })
-
+            .addCase(addStock.pending, (state) => {
+                state.loading = true;
+            })
+            .addCase(addStock.fulfilled, (state, action) => {
+                state.loading = false;
+                const { productId, stockData } = action.payload;
+                const product = state.products.find(p => p.id === productId);
+                if (product) {
+                    product.stocks = [...product.stocks, stockData];
+                }
+            })
+            .addCase(addStock.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            });
     },
 });
 

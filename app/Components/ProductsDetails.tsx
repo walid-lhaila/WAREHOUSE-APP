@@ -7,7 +7,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import {Ionicons} from "@expo/vector-icons";
 import useGetAllWarehousemans from "@/app/hooks/useGetAllWarehousemans";
 import useGetProductDetails from "@/app/hooks/useGetProductDetails";
-import StockForm from "@/app/Components/stockForm";
+import StockForm from "@/app/Components/StockForm";
 
 interface ProductDetailsProps {
     productId: string;
@@ -44,7 +44,7 @@ const ProductDetails = ({onPress, productId}: ProductDetailsProps) => {
     return (
 
         stockForm ? (
-                <StockForm onPress={() => setStockForm(false)} />
+                <StockForm productId={productDetails.id} onPress={() => setStockForm(false)} />
             ) : (
                 <View style={{ flex: 1}}>
                     <View style={{ width: '100%', paddingTop: 50, paddingHorizontal: 10, paddingVertical: 20, flexDirection: 'row', alignItems: 'center', backgroundColor: 'green' }}>
