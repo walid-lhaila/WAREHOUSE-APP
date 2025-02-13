@@ -10,6 +10,8 @@ const useAddStock = (productId, onSuccess) => {
         try {
             const productDetails = await dispatch(getProductDetails(productId)).unwrap();
 
+            const currentStocks = productDetails.stocks || [];
+
             const newStock = {
                 id: Date.now(),
                 name: stockName,
@@ -36,7 +38,7 @@ const useAddStock = (productId, onSuccess) => {
 
             const updatedProduct = {
                 ...productDetails,
-                stocks: [...productDetails.stocks, newStock],
+                stocks: [...currentStocks, newStock],
                 editedBy: updatedEditedBy,
             };
 

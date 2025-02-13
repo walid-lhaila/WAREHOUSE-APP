@@ -14,6 +14,13 @@ interface ProductsCardProps {
 function ProductsCard({ type, price, src, name, quantity, onPress}: ProductsCardProps) {
     const truncateName = name.length > 10 ? name.substring(0, 11) + ' ...' : name;
     const truncateType = type.length > 10 ? type.substring(0, 5) + ' ...' : type;
+
+    let stockColor = 'green';
+    if(quantity === 0) {
+        stockColor = 'red'
+    } else if (quantity > 0 && quantity < 10) {
+        stockColor = 'orange';
+    }
     return (
         <View style={{ backgroundColor: 'white', width: 185, height: 230, borderRadius: 20}}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 10, paddingVertical: 10}}>
@@ -32,8 +39,8 @@ function ProductsCard({ type, price, src, name, quantity, onPress}: ProductsCard
             <View style={{ width: '90%', marginHorizontal: 'auto', marginTop: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                 <View>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 5}}>
-                        <View style={{ backgroundColor: 'orange', width: 8, height: 8, borderRadius: 50}}></View>
-                        <Text style={{ fontWeight: 200, fontSize: 14}}>{quantity} Items</Text>
+                        <View style={{ backgroundColor: stockColor, width: 8, height: 8, borderRadius: 50}}></View>
+                        <Text style={{ fontWeight: 200, fontSize: 14}}>{quantity} Q</Text>
                     </View>
                     <Text style={{ fontWeight: 600, fontSize: 17}}>{truncateName}</Text>
                 </View>

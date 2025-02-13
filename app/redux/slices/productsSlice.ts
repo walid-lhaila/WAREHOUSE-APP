@@ -125,10 +125,10 @@ const productSlice = createSlice({
             })
             .addCase(addStock.fulfilled, (state, action) => {
                 state.loading = false;
-                const { productId, stockData } = action.payload;
+                const { productId, updatedProduct } = action.payload;
                 const product = state.products.find(p => p.id === productId);
                 if (product) {
-                    product.stocks = [...product.stocks, stockData];
+                    Object.assign(product, updatedProduct);
                 }
             })
             .addCase(addStock.rejected, (state, action) => {

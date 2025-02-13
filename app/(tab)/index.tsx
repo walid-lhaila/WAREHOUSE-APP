@@ -18,6 +18,12 @@ function Index() {
     const dispatch = useDispatch();
     const { products } = useSelector((state) => state.products);
 
+    const productsTotalQuantity = products.map((product) => {
+        const totalQuantity = product.stocks ? product.stocks.reduce((sum, stock) => sum + stock.quantity, 0) : 0;
+        return { ...product, totalQuantity };
+    });
+
+
     useEffect(() => {
         dispatch(fetchProducts());
     }, [dispatch]);
@@ -35,12 +41,12 @@ function Index() {
             <Header onPress={() => setSearch(true)} />
             <SectionTitle onPress={() => setProductForm(true)} />
                 <FlatList
-                    data={products}
+                    data={productsTotalQuantity}
                     keyExtractor={item => item.id.toString()}
                     numColumns={2}
                     renderItem={({ item }) => (
                         <View style={{ flex: 1, padding: 5 }}>
-                            <ProductsCard  onPress={() => {setProductDetails(true); setSelectedProductId(item.id);}} name={item.name} price={item.price} type={item.type} src={item.image} quantity={item.price} key={item.id} />
+                            <ProductsCard  onPress={() => {setProductDetails(true); setSelectedProductId(item.id);}} name={item.name} price={item.price} type={item.type} src={item.image} quantity={item.totalQuantity} key={item.id} />
                         </View>
                     )}
                     contentContainerStyle={{ paddingBottom: 20 }}
