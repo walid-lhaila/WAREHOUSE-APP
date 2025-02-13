@@ -48,7 +48,7 @@ const ProductDetails = ({onPress, productId}: ProductDetailsProps) => {
         stockForm ? (
                 <StockForm productId={productDetails.id} onPress={() => setStockForm(false)} />
             ) : quantityForm ? (
-                <QuantityForm close={() => setQuantityForm(false)} />
+                <QuantityForm cities={productDetails.stocks} close={() => setQuantityForm(false)} />
             ) : (
                 <View style={{ flex: 1}}>
                     <View style={{ width: '100%', paddingTop: 50, paddingHorizontal: 10, paddingVertical: 20, flexDirection: 'row', alignItems: 'center', backgroundColor: 'green' }}>
