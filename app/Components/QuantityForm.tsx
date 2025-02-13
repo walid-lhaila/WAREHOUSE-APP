@@ -11,7 +11,7 @@ import {Picker} from "@react-native-picker/picker";
 import {useDispatch, useSelector} from "react-redux";
 import {getProductDetails, updateStockQuantity} from "@/app/redux/slices/productsSlice";
 
-function QuantityForm({ close, cities }) {
+function QuantityForm({ close, cities, productId }) {
     const dispatch = useDispatch();
     const [selectedCity, setSelectedCity] = useState('');
     const selectedCityData = cities.find(city => city.localisation.city === selectedCity) || {};
@@ -47,23 +47,19 @@ function QuantityForm({ close, cities }) {
     };
 
     const handleUpdatedStock = async () => {
-        if(! selectedCity ) return;
-        const selectedProduct = products.find(product => product.stocks?.some(stock => stock.localisation.city === selectedCity));
-        if (selectedProduct) {
+        if(! selectedCity || !productId ) return;
             try {
                await dispatch(updateStockQuantity({
-                    productId: selectedProduct.id,
+                    productId: productId,
                     city: selectedCity,
                     quantity
                 })).unwrap();
-               await dispatch(getProductDetails(selectedProduct.id))
+               await dispatch(getProductDetails(productId))
                 console.log('Stock Updated Success');
                close();
             } catch (error) {
                 console.log('Failed Update Stock')
             }
-
-        }
     };
 
 

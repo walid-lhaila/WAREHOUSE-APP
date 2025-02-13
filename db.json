@@ -13,7 +13,7 @@
         {
           "id": 1999,
           "name": "Gueliz B2",
-          "quantity": 21,
+          "quantity": 7,
           "localisation": {
             "city": "Marrakesh",
             "latitude": 31.628674,
@@ -23,7 +23,7 @@
         {
           "id": 2991,
           "name": "Lazari H2",
-          "quantity": 24,
+          "quantity": 1,
           "localisation": {
             "city": "Oujda",
             "latitude": 34.689404,
@@ -86,7 +86,7 @@
       "stocks": [
         {
           "name": "California",
-          "quantity": 123,
+          "quantity": 0,
           "localisation": {
             "city": "Casablanca"
           }
@@ -96,6 +96,32 @@
         {
           "warehousemanId": 1444,
           "at": "2025-02-02"
+        }
+      ]
+    },
+    {
+      "id": "162d",
+      "name": "Samsung S10",
+      "type": "Informatique ",
+      "price": "3500",
+      "solde": "1200",
+      "supplier": "Samsung",
+      "barcode": "6111252421568",
+      "image": "https://image.made-in-china.com/2f0j00TSgWwVJrnlqu/Smartphone-8-128GB-6-6-Inch-5000mAh-4G-5g-Cell-Phone-Android-10-0-Mobile-Phone-8pm-13pm-Camera.webp",
+      "editedBy": [
+        {
+          "warehousemanId": "1444",
+          "at": "2025-02-13"
+        }
+      ],
+      "stocks": [
+        {
+          "id": 1739479250451,
+          "name": "California ",
+          "quantity": 30,
+          "localisation": {
+            "city": "Oujda"
+          }
         }
       ]
     }
