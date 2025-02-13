@@ -38,17 +38,10 @@ export const getProductDetails = createAsyncThunk(
 
 export const addStock = createAsyncThunk(
     "products/addStock",
-    async ({ productId, stockData }, { rejectWithValue }) => {
+    async ({ productId, updatedProduct }, { rejectWithValue }) => {
         try {
-            const productResponse = await axios.get(`${API_URL}/${productId}`);
-            const product = productResponse.data;
-
-            const updatedStocks = [...product.stocks, stockData];
-
-            const updatedProduct = { ...product, stocks: updatedStocks };
             await axios.put(`${API_URL}/${productId}`, updatedProduct);
-
-            return { productId, stockData };
+            return { productId, updatedProduct };
         } catch (error) {
             return rejectWithValue(error.response?.data || "Something went wrong");
         }
