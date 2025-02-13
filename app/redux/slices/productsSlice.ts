@@ -48,6 +48,30 @@ export const addStock = createAsyncThunk(
     }
 );
 
+export const updateStockQuantity  = createAsyncThunk(
+    "products/updateStockQuantity",
+    async ({ productId, city, quantity }, {rejectWithValue }) => {
+        try {
+            const response = await axios.get(`${API_URL}/${productId}`);
+            let product = response.data;
+
+            const updatedStock = product.stocks.map(stock =>
+                stock.localisation.city === city ? { ...stock, quantity } : stock
+            );
+
+            const updatedProduct = {...product, stocks: updatedStock};
+
+            await axios.put(`${API_URL}/${productId}`, updatedProduct);
+
+            return { productId, updatedStock };
+        } catch (error) {
+            return rejectWithValue(error.response?.data || "Failed Update Stock");
+        }
+    }
+);
+
+
+
 
 const productSlice = createSlice({
     name: "products",
@@ -110,7 +134,23 @@ const productSlice = createSlice({
             .addCase(addStock.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message;
-            });
+            })
+            .addCase(updateStockQuantity.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(updateStockQuantity.fulfilled, (state, action) => {
+                state.loading = false;
+                const { productId, updatedStock } = action.payload;
+                const existingProduct = state.products.find(p => p.id === productId);
+                if(existingProduct) {
+                    existingProduct.stocks = updatedStock || [];
+                }
+            })
+            .addCase(updateStockQuantity.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message;
+            })
     },
 });
 
