@@ -1,30 +1,46 @@
     import React, {useState} from 'react';
-    import {Pressable, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+    import {Alert, Pressable, StyleSheet, Text, TouchableOpacity, View} from "react-native";
     import {Ionicons} from "@expo/vector-icons";
     import Input from "@/app/Components/Input";
     import {LinearGradient} from "expo-linear-gradient";
     import {useDispatch} from "react-redux";
     import {addStock, getProductDetails} from "@/app/redux/slices/productsSlice";
+    import useGetUserData from "@/app/hooks/useGetUserData";
 
     function StockForm({onPress, productId}) {
         const dispatch = useDispatch();
+        const warehouseman = useGetUserData();
         const [stockName, setStockName] = useState('');
         const [quantity, setQuantity] = useState('');
         const [city, setCity] = useState('');
 
-        console.log(productId)
-
         const handleAddStock = async () => {
+
+            const productDetails = await dispatch(getProductDetails(productId)).unwrap();
+
             try {
-            const stockData = {
+            const newStock = {
+                id: Date.now(),
                 name: stockName,
                 quantity: parseInt(quantity),
                 localisation: {
                     city: city,
                 },
             };
-             await dispatch(addStock({ productId, stockData }));
-                console.log("stock added success");
+
+            const updatedProduct = {
+                ...productDetails,
+                stocks: [...productDetails.stocks, newStock],
+                editedBy: [
+                    ...productDetails.editedBy,
+                    {
+                        warehousemanId: warehouseman.userId,
+                        at: new Date().toISOString().split("T")[0],
+                    },
+                ],
+            };
+            await dispatch(addStock({productId, updatedProduct}));
+            console.log("Stock added successfully");
             await dispatch(getProductDetails(productId));
             onPress();
             } catch (error) {

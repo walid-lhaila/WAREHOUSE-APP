@@ -29,12 +29,44 @@
             "latitude": 34.689404,
             "longitude": -1.912823
           }
+        },
+        {
+          "name": "Tt",
+          "quantity": 8,
+          "localisation": {
+            "city": "Tt"
+          }
+        },
+        {
+          "name": "Gh",
+          "quantity": 50,
+          "localisation": {
+            "city": "Gh"
+          },
+          "editedBy": [
+            {
+              "warehousemanId": "1444",
+              "at": "2025-02-13"
+            }
+          ]
+        },
+        {
+          "id": 1739438637023,
+          "name": "H",
+          "quantity": 2,
+          "localisation": {
+            "city": "H"
+          }
         }
       ],
       "editedBy": [
         {
           "warehousemanId": 1333,
           "at": "2025-02-02"
+        },
+        {
+          "warehousemanId": "1444",
+          "at": "2025-02-13"
         }
       ]
     },
