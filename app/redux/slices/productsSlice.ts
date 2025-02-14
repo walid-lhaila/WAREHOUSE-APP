@@ -17,18 +17,18 @@ export const fetchProducts = createAsyncThunk(
 
 export const createProducts = createAsyncThunk(
     "products/create",
-    async (newProduct, {rejectWithValue, getState }) => {
+    async (newProduct, { rejectWithValue, getState }) => {
+        const { products } = getState().products;
+        const barcodeExists = products.some(product => product.barcode === newProduct.barcode);
+        if (barcodeExists) {
+            return rejectWithValue("Product Already Exists");
+        }
+
         try {
-            const {products} = getState().products;
-            const barcodeExists = products.some(product => product.barcode === newProduct.barcode);
-            if(barcodeExists) {
-                return rejectWithValue("Product Already Exists");
-            }
             const response = await axios.post(API_URL, newProduct);
             return response.data;
-
         } catch (error) {
-            return rejectWithValue(error.response?.data || "Something went wrong");
+            return rejectWithValue(error.response?.data || "Server Error");
         }
     }
 );
@@ -103,7 +103,7 @@ const productSlice = createSlice({
             })
             .addCase(fetchProducts.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message;
+                state.error = action.payload || "Something went wrong";
             })
             .addCase(createProducts.pending, (state) => {
                 state.loading = true;
@@ -112,11 +112,11 @@ const productSlice = createSlice({
             .addCase(createProducts.fulfilled, (state, action) => {
                 state.loading = false;
                 state.products.push(action.payload);
-                state.error = false
+                state.error = null;
             })
             .addCase(createProducts.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message;
+                state.error = action.payload as string;
             })
             .addCase(getProductDetails.pending, (state) => {
                 state.loading = true;
