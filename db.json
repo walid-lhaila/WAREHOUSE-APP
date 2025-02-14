@@ -29,12 +29,24 @@
             "latitude": 34.689404,
             "longitude": -1.912823
           }
+        },
+        {
+          "id": 1739547719055,
+          "name": "California",
+          "quantity": 10,
+          "localisation": {
+            "city": "Casablanca "
+          }
         }
       ],
       "editedBy": [
         {
           "warehousemanId": 1333,
           "at": "2025-02-02"
+        },
+        {
+          "warehousemanId": 1444,
+          "at": "2025-02-14"
         }
       ]
     },
@@ -50,7 +62,7 @@
         {
           "id": 1999,
           "name": "Gueliz B2",
-          "quantity": 20,
+          "quantity": 18,
           "localisation": {
             "city": "Marrakesh",
             "latitude": 31.628674,
@@ -121,6 +133,14 @@
           "quantity": 30,
           "localisation": {
             "city": "Oujda"
+          }
+        },
+        {
+          "id": 1739547701744,
+          "name": "California",
+          "quantity": 12,
+          "localisation": {
+            "city": "Casablanca"
           }
         }
       ]
