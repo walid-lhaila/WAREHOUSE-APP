@@ -150,48 +150,6 @@
           }
         }
       ]
-    },
-    {
-      "id": "bc1e",
-      "name": "Tsh",
-      "type": "Hdh",
-      "price": "726",
-      "solde": "826",
-      "supplier": "Hd",
-      "barcode": "7652",
-      "image": "Hdhhd",
-      "editedBy": [
-        {
-          "warehousemanId": "1444",
-          "at": "2025-02-14"
-        }
-      ],
-      "stocks": [
-        {
-          "id": 1739559374965,
-          "name": "Hshdh",
-          "quantity": 4581,
-          "localisation": {
-            "city": "Dhhdd"
-          }
-        }
-      ]
-    },
-    {
-      "id": "38f4",
-      "name": "Tt",
-      "type": "Tt",
-      "price": "Rr",
-      "solde": "65",
-      "supplier": "Gvd",
-      "barcode": "764",
-      "image": "Hdhd",
-      "editedBy": [
-        {
-          "warehousemanId": "1444",
-          "at": "2025-02-14"
-        }
-      ]
     }
   ],
   "warehousemans": [
