@@ -29,24 +29,12 @@
             "latitude": 34.689404,
             "longitude": -1.912823
           }
-        },
-        {
-          "id": 1739547719055,
-          "name": "California",
-          "quantity": 10,
-          "localisation": {
-            "city": "Casablanca "
-          }
         }
       ],
       "editedBy": [
         {
           "warehousemanId": 1333,
           "at": "2025-02-02"
-        },
-        {
-          "warehousemanId": 1444,
-          "at": "2025-02-14"
         }
       ]
     },
@@ -62,7 +50,7 @@
         {
           "id": 1999,
           "name": "Gueliz B2",
-          "quantity": 18,
+          "quantity": 20,
           "localisation": {
             "city": "Marrakesh",
             "latitude": 31.628674,
@@ -134,14 +122,6 @@
           "localisation": {
             "city": "Oujda"
           }
-        },
-        {
-          "id": 1739547701744,
-          "name": "California",
-          "quantity": 12,
-          "localisation": {
-            "city": "Casablanca"
-          }
         }
       ]
     },
@@ -154,6 +134,58 @@
       "supplier": "Hp",
       "barcode": "4907990203229",
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQUq2qIXXTEBx6Egs8q5mhTKFqzi4P0MzK-W0Y93uLeg&s",
+      "editedBy": [
+        {
+          "warehousemanId": "1444",
+          "at": "2025-02-14"
+        }
+      ],
+      "stocks": [
+        {
+          "id": 1739568236445,
+          "name": "Californien",
+          "quantity": 19,
+          "localisation": {
+            "city": "Casablanca "
+          }
+        }
+      ]
+    },
+    {
+      "id": "bc1e",
+      "name": "Tsh",
+      "type": "Hdh",
+      "price": "726",
+      "solde": "826",
+      "supplier": "Hd",
+      "barcode": "7652",
+      "image": "Hdhhd",
+      "editedBy": [
+        {
+          "warehousemanId": "1444",
+          "at": "2025-02-14"
+        }
+      ],
+      "stocks": [
+        {
+          "id": 1739559374965,
+          "name": "Hshdh",
+          "quantity": 4581,
+          "localisation": {
+            "city": "Dhhdd"
+          }
+        }
+      ]
+    },
+    {
+      "id": "38f4",
+      "name": "Tt",
+      "type": "Tt",
+      "price": "Rr",
+      "solde": "65",
+      "supplier": "Gvd",
+      "barcode": "764",
+      "image": "Hdhd",
       "editedBy": [
         {
           "warehousemanId": "1444",
