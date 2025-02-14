@@ -93,7 +93,7 @@ const productSlice = createSlice({
             })
             .addCase(fetchProducts.rejected, (state, action) => {
                 state.loading = false;
-                state.error = action.error.message;
+                state.error = action.payload || "Something went wrong";
             })
             .addCase(createProducts.pending, (state) => {
                 state.loading = true;
