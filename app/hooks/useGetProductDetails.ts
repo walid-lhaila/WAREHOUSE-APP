@@ -15,7 +15,6 @@ const useGetProductDetails = (productId) => {
 
     return { productDetails, loading, productId}
 
-}
-
+};
 
 export default useGetProductDetails;
