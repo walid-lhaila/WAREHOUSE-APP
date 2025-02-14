@@ -45,7 +45,7 @@ export default function useProductForm(onPress) {
             Alert.alert("Success", "Product added successfully!");
             onPress();
         } catch (error) {
-            console.log(error || "Failed to add product.");
+            Alert.alert("Error", error || "Failed to add product.");
         }
     };
 
