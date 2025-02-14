@@ -1,9 +1,8 @@
 import * as Print from 'expo-print';
-import { useEffect } from 'react';
 
-function PrintComponent({ productDetails }) {
+export const handlePrint = async (productDetails: any) => {
     const generateHTML = () => {
-        const totalQuantity = productDetails?.stocks?.reduce((total, stock) => total + stock.quantity, 0) || 0;
+        const totalQuantity = productDetails?.stocks?.reduce((total: number, stock: any) => total + stock.quantity, 0) || 0;
 
         return `
       <html>
@@ -62,21 +61,13 @@ function PrintComponent({ productDetails }) {
     `;
     };
 
-    const handlePrint = async () => {
-        try {
-            const html = generateHTML();
-            const { uri } = await Print.printToFileAsync({ html });
-            await Print.printAsync({ uri });
-        } catch (error) {
-            console.error('Error printing:', error);
-        }
-    };
-
-    useEffect(() => {
-        handlePrint();
-    }, []);
-
-    return null;
-}
-
-export default PrintComponent;
+    try {
+        const html = generateHTML();
+        const { uri } = await Print.printToFileAsync({ html });
+        await Print.printAsync({ uri });
+        return true
+    } catch (error) {
+        console.error('Error in print utility:', error);
+        throw error;
+    }
+};
