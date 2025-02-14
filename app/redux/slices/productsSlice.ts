@@ -17,9 +17,19 @@ export const fetchProducts = createAsyncThunk(
 
 export const createProducts = createAsyncThunk(
     "products/create",
-    async (newProduct) => {
-        const response = await axios.post(API_URL, newProduct);
-        return response.data;
+    async (newProduct, {rejectWithValue, getState }) => {
+        try {
+            const {products} = getState().products;
+            const barcodeExists = products.some(product => product.barcode === newProduct.barcode);
+            if(barcodeExists) {
+                return rejectWithValue("Product Already Exists");
+            }
+            const response = await axios.post(API_URL, newProduct);
+            return response.data;
+
+        } catch (error) {
+            return rejectWithValue(error.response?.data || "Something went wrong");
+        }
     }
 );
 

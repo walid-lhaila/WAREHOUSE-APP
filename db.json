@@ -124,6 +124,22 @@
           }
         }
       ]
+    },
+    {
+      "id": "f0e4",
+      "name": "Gaming pc",
+      "type": "Gaming",
+      "price": "13000",
+      "solde": "500",
+      "supplier": "Hp",
+      "barcode": "4907990203229",
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRQUq2qIXXTEBx6Egs8q5mhTKFqzi4P0MzK-W0Y93uLeg&s",
+      "editedBy": [
+        {
+          "warehousemanId": "1444",
+          "at": "2025-02-14"
+        }
+      ]
     }
   ],
   "warehousemans": [
